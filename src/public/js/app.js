@@ -14,10 +14,7 @@ socket.addEventListener("open", () => {
 
 socket.addEventListener('message', (message) => {
     const li = document.createElement('li')
-    li.innerText = 
-    message.data.text().then(str => 
-        li.innerText = str
-    )
+    li.innerText = message.data
     messageList.append(li);
     // console.log('New message: ', message.data.text())
 })
@@ -29,7 +26,6 @@ socket.addEventListener('close', () => {
 function handleSubmit(e) {
     e.preventDefault();
     const input = messageForm.querySelector("input");
-    console.log(input.value)
     socket.send(makeMessageStringify("new_message", input.value));
     input.value = '';
 }
@@ -38,7 +34,7 @@ function handleNameSubmit(e) {
     e.preventDefault();
     const input = nameForm.querySelector('input');
     socket.send(makeMessageStringify("name", input.value));
-    
+    input.value='';    
 }
 
 messageForm.addEventListener('submit', handleSubmit)

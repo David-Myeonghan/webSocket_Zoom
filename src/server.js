@@ -22,13 +22,16 @@ const wss = new WebSocket.Server({server});
 //     console.log(socket)
 // }
 
+const sockets = [];
+
 wss.on("connection", (socket) => {
+    sockets.push(socket);
     console.log("connected to Browser");
     socket.on('close', () => console.log('Disconnected from browser'))
     socket.on('message', message => {
-        console.log(message.toString())
+        sockets.forEach(aSocket => aSocket.send(message));
+        // socket.send(message); // or, ~.toString();
     })
-    socket.send("Hi, there, browser!")
 })
 
 server.listen(3000, handleListen);
